@@ -1,15 +1,8 @@
-var popSize = 500;
-var population = [];
-var fitness = [];
-var currentBest = [];
-
-var statusP;
-
 function createPopulation(order){
-    for (var i = 0; i < popSize; i++) {
-        population[i] = shuffle(order);
+    for (let i = 0; i < popSize; i++) {
+        population[i] = shuffle(order, false  );
     }
-    statusP = createP('').style('font-size', '32pt');
+    bestEver = order.slice();
 }
 
 function geneticAlgo(){
@@ -18,25 +11,25 @@ function geneticAlgo(){
     normalizeFitness();
     nextGeneration();
 
+    translate(0, 0);
     stroke(128,0,128);
     strokeWeight(2);
     noFill();
     beginShape();
-    for (var i = 0; i < bestEver.length; i++) {
-        var n = bestEver[i];
+    for (let i = 0; i < bestEver.length; i++) {
+        let n = bestEver[i];
         vertex(cities[n].x, cities[n].y);
         ellipse(cities[n].x, cities[n].y, 4, 4);
     }
-    //line(cities[bestEver[size-1]].x, cities[bestEver[size-1]].y, cities[bestEver[0]].x, cities[bestEver[0]].y)
+    line(cities[bestEver[size-1]].x, cities[bestEver[size-1]].y, cities[bestEver[0]].x, cities[bestEver[0]].y)
     endShape();
 
-    translate(0, height / 2);
     stroke(255);
-    strokeWeight(2);
+    strokeWeight(.5);
     noFill();
     beginShape();
-    for (var i = 0; i < currentBest.length; i++) {
-        var n = currentBest[i];
+    for (let i = 0; i < currentBest.length; i++) {
+        let n = currentBest[i];
         vertex(cities[n].x, cities[n].y);
         ellipse(cities[n].x, cities[n].y, 4, 4);
     }
@@ -44,11 +37,11 @@ function geneticAlgo(){
 }
 
 function calculateFitness() {
-    var currentRecord = Infinity;
-    for (var i = 0; i < population.length; i++) {
-        var d = calcDistance(cities, population[i]);
-        if (d < bestDistance) {
-        bestDistance = d;
+    let currentRecord = Infinity;
+    for (let i = 0; i < population.length; i++) {
+        let d = calcDistance(cities, population[i]);
+        if (d < bestDistanceGA) {
+            bestDistanceGA = d;
         bestEver = population[i];
         }
         if (d < currentRecord) {
@@ -64,21 +57,21 @@ function calculateFitness() {
 }
   
 function normalizeFitness() {
-    var sum = 0;
-    for (var i = 0; i < fitness.length; i++) {
+    let sum = 0;
+    for (let i = 0; i < fitness.length; i++) {
         sum += fitness[i];
     }
-    for (var i = 0; i < fitness.length; i++) {
+    for (let i = 0; i < fitness.length; i++) {
         fitness[i] = fitness[i] / sum;
     }
 }
 
 function nextGeneration() {
-    var newPopulation = [];
-    for (var i = 0; i < population.length; i++) {
-        var orderA = pickOne(population, fitness);
-        var orderB = pickOne(population, fitness);
-        var order = crossOver(orderA, orderB);
+    let newPopulation = [];
+    for (let i = 0; i < population.length; i++) {
+        let orderA = pickOne(population, fitness);
+        let orderB = pickOne(population, fitness);
+        let order = crossOver(orderA, orderB);
         mutate(order, 0.01);
         newPopulation[i] = order;
     }
@@ -86,8 +79,8 @@ function nextGeneration() {
 }
 
 function pickOne(list, prob) {
-    var index = 0;
-    var r = random(1);
+    let index = 0;
+    let r = random(1);
 
     while (r > 0) {
         r = r - prob[index];
@@ -98,12 +91,12 @@ function pickOne(list, prob) {
 }
   
 function crossOver(orderA, orderB) {
-    var start = floor(random(orderA.length));
-    var end = floor(random(start + 1, orderA.length));
-    var neworder = orderA.slice(start, end);
-    // var left = size - neworder.length;
-    for (var i = 0; i < orderB.length; i++) {
-        var city = orderB[i];
+    let start = floor(random(orderA.length));
+    let end = floor(random(start + 1, orderA.length));
+    let neworder = orderA.slice(start, end);
+    // let left = size - neworder.length;
+    for (let i = 0; i < orderB.length; i++) {
+        let city = orderB[i];
         if (!neworder.includes(city)) {
         neworder.push(city);
         }
@@ -112,28 +105,17 @@ function crossOver(orderA, orderB) {
 }
 
 function mutate(order, mutationRate) {
-    for (var i = 0; i < size; i++) {
+    for (let i = 0; i < size; i++) {
         if (random(1) < mutationRate) {
-        var indexA = floor(random(order.length));
-        var indexB = (indexA + 1) % size;
+        let indexA = floor(random(order.length));
+        let indexB = (indexA + 1) % size;
         swap(order, indexA, indexB);
         }
     }
 }
 
-function calcDistance(points, order) {
-    var sum = 0;
-    for (var i = 0; i < order.length-1; i++) {
-        var cityAIndex = order[i];
-        var cityBIndex = order[i + 1];
-        var d = distances[cityAIndex][cityBIndex];
-        sum += d;
-    }
-    return sum;
-}
-
 function swap(a, i, j) {
-    var temp = a[i];
+    let temp = a[i];
     a[i] = a[j];
     a[j] = temp;
 }

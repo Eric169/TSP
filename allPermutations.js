@@ -1,42 +1,52 @@
-var order = [];
-var bestOrder = [];
-var iterations = 0;
+function allPermutationsSetup(order){
+    orderPermutations = order.slice();
+}
 
 function allPermutations(){
     iterations++;
-    stroke(255);
-    strokeWeight(.5);
-    noFill();
-    beginShape();
-    for(var i = 0; i < size; i++){
-      vertex(cities[order[i]].x, cities[order[i]].y);
+    let dist = calcDistance(cities, orderPermutations);
+    if(bestDistancePermutations > dist){
+      bestDistancePermutations = dist;
+      bestorderPermutations = orderPermutations.slice();
     }
-    endShape();
-  
-    var dist = distance();
-    if(bestDistance > dist){
-      bestDistance = dist;
-      bestOrder = order.slice();
-    }
-  
+    
+    translate(0, height/2);
     stroke(128,0,128);
     strokeWeight(3);
     noFill();
     beginShape();
-    for(var i = 0; i < size; i++){
-      vertex(cities[bestOrder[i]].x, cities[bestOrder[i]].y);
+    console.log(bestorderPermutations, orderPermutations);
+    for(let i = 0; i < size; i++){
+        let n = bestorderPermutations[i];
+        vertex(cities[n].x, cities[n].y);
+        ellipse(cities[n].x, cities[n].y, 4, 4);
     }
+    line(cities[bestorderPermutations[size-1]].x, cities[bestorderPermutations[size-1]].y, cities[bestorderPermutations[0]].x, cities[bestorderPermutations[0]].y)
     endShape();
-  
-    showPercentage();
-  
-    order = nextPermutation(order);
-    if(order == null) noLoop();
+
+    
+    stroke(255);
+    strokeWeight(.5);
+    noFill();
+    beginShape();
+    for(let i = 0; i < size; i++){        
+        let n = orderPermutations[i];
+        vertex(cities[n].x, cities[n].y);
+        ellipse(cities[n].x, cities[n].y, 4, 4);
+    }
+    line(cities[orderPermutations[size-1]].x, cities[orderPermutations[size-1]].y, cities[orderPermutations[0]].x, cities[orderPermutations[0]].y)
+    endShape();
+    translate(0, -height/2);
+
+    //showPercentage();
+    
+    orderPermutations = nextPermutation(orderPermutations);
+    if(orderPermutations == null) noLoop();
 }
 
 
 function showPercentage(){
-    var percentageTried = ((iterations/factorial(size))*100).toFixed(3);
+    let percentageTried = ((iterations/fact)*100).toFixed(3);
     textSize(32);
     fill(255);
     text(percentageTried, 20, height*20/21);
