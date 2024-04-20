@@ -38,24 +38,22 @@ function setup() {
   calcMinDistanceLevel();
 }
 
-function arrayMin(arr) {
-  var len = arr.length, min = Infinity;
-  while (len--) {
-    if (arr[len] < min) {
-      min = arr[len];
+function arrayMin(arr, found, i) {
+  var len = arr.length, min = Infinity, id;
+  for(let n = 0; n<len; n++) if(n != i&& n != found) {
+    if (arr[n] < min) {
+      min = arr[n];
+      id = n;
     }
   }
-  return min;
+  return id;
 };
 
 
 function calcMinDistanceLevel(){
   for(let i = 0; i<size; i++){
-    let minValue = Infinity;
-    for(let j = 0; j<size; j++)if(i != j){
-      if(distances[i][j] < minValue) minValue = distances[i][j];
-    }
-    minimumDistance += minValue;
+    let min1 = arrayMin(distances[i], -1, i), min2 = arrayMin(distances[i], min1, i);
+    minimumDistance += (distances[i][min1] + distances[i][min2])/2;
   }
 }
 

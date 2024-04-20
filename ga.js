@@ -24,6 +24,7 @@ function geneticAlgo(){
     line(cities[bestEver[size-1]].x, cities[bestEver[size-1]].y, cities[bestEver[0]].x, cities[bestEver[0]].y)
     endShape();
 
+    /*
     stroke(255);
     strokeWeight(.5);
     noFill();
@@ -34,6 +35,7 @@ function geneticAlgo(){
         ellipse(cities[n].x, cities[n].y, 4, 4);
     }
     endShape();
+    */
 }
 
 function calculateFitness() {
@@ -72,7 +74,7 @@ function nextGeneration() {
         let orderA = pickOne(population, fitness);
         let orderB = pickOne(population, fitness);
         let order = crossOver(orderA, orderB);
-        mutate(order, 0.01);
+        mutate(order, 0.05);
         newPopulation[i] = order;
     }
     population = newPopulation;

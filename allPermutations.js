@@ -15,7 +15,6 @@ function allPermutations(){
     strokeWeight(3);
     noFill();
     beginShape();
-    console.log(bestorderPermutations, orderPermutations);
     for(let i = 0; i < size; i++){
         let n = bestorderPermutations[i];
         vertex(cities[n].x, cities[n].y);
@@ -25,6 +24,7 @@ function allPermutations(){
     endShape();
 
     
+    /*
     stroke(255);
     strokeWeight(.5);
     noFill();
@@ -36,6 +36,7 @@ function allPermutations(){
     }
     line(cities[orderPermutations[size-1]].x, cities[orderPermutations[size-1]].y, cities[orderPermutations[0]].x, cities[orderPermutations[0]].y)
     endShape();
+    */
     translate(0, -height/2);
 
     //showPercentage();
