@@ -1,15 +1,16 @@
 var cities = [];
 var distances = [];
-const size = 30;
+const size = 40;
 var minimumDistance = 0;
 
 //variables for geneticAlgo
-var popSize = 500;
+var popSize = 1000;
 var population = [];
 var fitness = [];
 var currentBest = [];
 var bestEver = [];
 var bestDistanceGA = Infinity;
+var nGeneration = 0;
 
 //variables for allPermutations
 var orderPermutations = [];
@@ -110,7 +111,10 @@ function showDistances(){
   translate(width*translation,height*translation);
   textSize(32);
   fill(255);
-  let currentBests = "Distances\nLower Bound = " + minimumDistance.toFixed(3) + "\nGA = " + bestDistanceGA.toFixed(3) + "\nNearest Neighbour = " + bestDistanceNearestNeighbour.toFixed(3) + "\nAll permutations = " + bestDistancePermutations.toFixed(3);
+  let currentBests = "Distances\nLower Bound = " + minimumDistance.toFixed(3) + 
+    "\nGA = " + bestDistanceGA.toFixed(3) + " Gen = " + nGeneration + 
+    "\nNearest Neighbour = " + bestDistanceNearestNeighbour.toFixed(3) + 
+    "\nAll permutations = " + bestDistancePermutations.toFixed(3) + "\nPercentage tried = " + (iterations/fact*100).toFixed(3);
   text(currentBests, 0, 0);
   translate(-width*translation, -height*translation);
 }

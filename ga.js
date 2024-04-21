@@ -11,6 +11,8 @@ function geneticAlgo(){
     normalizeFitness();
     nextGeneration();
 
+    nGeneration++;
+
     translate(0, 0);
     stroke(128,0,128);
     strokeWeight(2);
@@ -109,9 +111,9 @@ function crossOver(orderA, orderB) {
 function mutate(order, mutationRate) {
     for (let i = 0; i < size; i++) {
         if (random(1) < mutationRate) {
-        let indexA = floor(random(order.length));
-        let indexB = (indexA + 1) % size;
-        swap(order, indexA, indexB);
+            let indexA = floor(random(order.length));
+            let indexB = (indexA + 1) % size;
+            swap(order, indexA, indexB);
         }
     }
 }

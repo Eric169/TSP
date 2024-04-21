@@ -18,8 +18,6 @@ function nearestNeighbourDraw(){
     translate(-width/2, 0);
 }
 
-
-
 // tour of points using nearest neighbor heuristic
 function nearestNeighbourPath() {
     for(let i = 0; i < size; i++){
